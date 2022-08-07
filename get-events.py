@@ -76,6 +76,10 @@ def getEvents(service, calendar_list):
 
 
 def displayEvents(events):
+    # sort by start time
+    events.sort(key=lambda x: x['start'].get('dateTime', x['start'].get('date')), reverse=False)
+
+    # print
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print('{} [{}] {}'.format(start, event['calendar_name'], event['summary']))
