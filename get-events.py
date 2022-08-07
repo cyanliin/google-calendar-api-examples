@@ -9,6 +9,8 @@ from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+DAYS = 100
+MAX_EVENTS = 99
 
 def main():
     creds = getCreds();
@@ -59,14 +61,15 @@ def getCalenders(service):
 
 def getEvents(service, calendar_list):
     now = datetime.datetime.utcnow()
-    max_time = now + datetime.timedelta(days=100) 
+    max_time = now + datetime.timedelta(days=DAYS) 
     all_events = []
     for calender in calendar_list:
+        print('Getting events form calendar [{}](ID: {})...'.format(calender['summary'], calender['id']))
         calender_events = service.events().list(
             calendarId=calender['id'],
             timeMin=now.isoformat() + 'Z',
             timeMax=max_time.isoformat() + 'Z',
-            maxResults=20,
+            maxResults=MAX_EVENTS,
             singleEvents=True,
             orderBy='startTime').execute()
         for event in calender_events['items']:
@@ -80,6 +83,7 @@ def displayEvents(events):
     events.sort(key=lambda x: x['start'].get('dateTime', x['start'].get('date')), reverse=False)
 
     # print
+    print('All events in upcoming {} days:'.format(DAYS))
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print('{} [{}] {}'.format(start, event['calendar_name'], event['summary']))
