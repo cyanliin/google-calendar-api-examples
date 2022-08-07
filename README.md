@@ -5,7 +5,7 @@
 You need go to [Google Cloud Console](https://console.cloud.google.com/?hl=zh-TW) do following things:
 1. Create a project and switch to it.
 1. Enable Calendar API in this project.
-1. (Add test account)
+1. (Add a test account)
 1. Get an credentials by OAuth2.0.
 1. Download credentials JSON file.
 1. Rename it to 'credentials.json' and copy it to this root folder.
@@ -14,6 +14,7 @@ You need go to [Google Cloud Console](https://console.cloud.google.com/?hl=zh-TW
 ```python
 python3 get-events.py
 ```
+If this is your first time running the code, it opens a new window prompting you to authorize access to your data.
 
 ## Result
 ```
